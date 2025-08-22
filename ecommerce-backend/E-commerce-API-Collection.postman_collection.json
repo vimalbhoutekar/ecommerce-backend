@@ -1,0 +1,921 @@
+{
+    "info": {
+        "name": "Complete E-commerce API Collection",
+        "_postman_id": "ecommerce-api-2024",
+        "description": "Comprehensive Postman Collection for E-commerce Backend API with all endpoints including Auth, Products, Orders, Categories, Coupons, and Reports",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "🔐 Authentication",
+            "item": [
+                {
+                    "name": "Register User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/auth/register",
+                            "host": ["{{base_url}}"],
+                            "path": ["auth", "register"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"user\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Register Admin User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/auth/register",
+                            "host": ["{{base_url}}"],
+                            "path": ["auth", "register"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Admin User\",\n    \"email\": \"admin@example.com\",\n    \"password\": \"admin123\",\n    \"role\": \"admin\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Login User",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/auth/login",
+                            "host": ["{{base_url}}"],
+                            "path": ["auth", "login"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"john@example.com\",\n    \"password\": \"password123\"\n}"
+                        },
+                        "event": [
+                            {
+                                "listen": "test",
+                                "script": {
+                                    "exec": [
+                                        "if (pm.response.code === 200) {",
+                                        "    const response = pm.response.json();",
+                                        "    if (response.success && response.token) {",
+                                        "        pm.environment.set('token', response.token);",
+                                        "    }",
+                                        "}"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "Login Admin",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/auth/login",
+                            "host": ["{{base_url}}"],
+                            "path": ["auth", "login"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"admin@example.com\",\n    \"password\": \"admin123\"\n}"
+                        },
+                        "event": [
+                            {
+                                "listen": "test",
+                                "script": {
+                                    "exec": [
+                                        "if (pm.response.code === 200) {",
+                                        "    const response = pm.response.json();",
+                                        "    if (response.success && response.token) {",
+                                        "        pm.environment.set('admin_token', response.token);",
+                                        "    }",
+                                        "}"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "name": "Get User Profile",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/auth/profile",
+                            "host": ["{{base_url}}"],
+                            "path": ["auth", "profile"]
+                        }
+                    }
+                },
+                {
+                    "name": "Admin Test Route",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/auth/admin-test",
+                            "host": ["{{base_url}}"],
+                            "path": ["auth", "admin-test"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "📂 Categories",
+            "item": [
+                {
+                    "name": "Get All Categories",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/categories",
+                            "host": ["{{base_url}}"],
+                            "path": ["categories"]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Electronics Category",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/categories",
+                            "host": ["{{base_url}}"],
+                            "path": ["categories"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Electronics\",\n    \"description\": \"Electronic devices and accessories\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Create Clothing Category",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/categories",
+                            "host": ["{{base_url}}"],
+                            "path": ["categories"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Clothing\",\n    \"description\": \"Fashion and apparel items\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Create Books Category",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/categories",
+                            "host": ["{{base_url}}"],
+                            "path": ["categories"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Books\",\n    \"description\": \"Books and educational materials\"\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🛍️ Products",
+            "item": [
+                {
+                    "name": "Get All Products",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/products",
+                            "host": ["{{base_url}}"],
+                            "path": ["products"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Product by ID",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/products/{{product_id}}",
+                            "host": ["{{base_url}}"],
+                            "path": ["products", "{{product_id}}"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Products by Category",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{base_url}}/products?category={{category_id}}&page=1&limit=10",
+                            "host": ["{{base_url}}"],
+                            "path": ["products"],
+                            "query": [
+                                {"key": "category", "value": "{{category_id}}"},
+                                {"key": "page", "value": "1"},
+                                {"key": "limit", "value": "10"}
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create iPhone Product",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/products",
+                            "host": ["{{base_url}}"],
+                            "path": ["products"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"iPhone 15 Pro\",\n    \"description\": \"Latest iPhone with titanium design and advanced camera system\",\n    \"price\": 999.99,\n    \"category\": \"{{electronics_category_id}}\",\n    \"stock\": 50,\n    \"images\": [\"iphone15pro-1.jpg\", \"iphone15pro-2.jpg\"],\n    \"specifications\": {\n        \"brand\": \"Apple\",\n        \"model\": \"iPhone 15 Pro\",\n        \"storage\": \"256GB\",\n        \"color\": \"Natural Titanium\",\n        \"display\": \"6.1-inch Super Retina XDR\",\n        \"camera\": \"48MP Main Camera\"\n    }\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Create Samsung Phone Product",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/products",
+                            "host": ["{{base_url}}"],
+                            "path": ["products"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Samsung Galaxy S24 Ultra\",\n    \"description\": \"Premium Android smartphone with S Pen and advanced AI features\",\n    \"price\": 1199.99,\n    \"category\": \"{{electronics_category_id}}\",\n    \"stock\": 30,\n    \"images\": [\"galaxys24ultra-1.jpg\", \"galaxys24ultra-2.jpg\"],\n    \"specifications\": {\n        \"brand\": \"Samsung\",\n        \"model\": \"Galaxy S24 Ultra\",\n        \"storage\": \"256GB\",\n        \"color\": \"Titanium Black\",\n        \"display\": \"6.8-inch Dynamic AMOLED 2X\",\n        \"camera\": \"200MP Main Camera\",\n        \"features\": \"S Pen included\"\n    }\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Create MacBook Product",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/products",
+                            "host": ["{{base_url}}"],
+                            "path": ["products"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"MacBook Pro 14-inch\",\n    \"description\": \"Professional laptop with M3 Pro chip for demanding workflows\",\n    \"price\": 1999.99,\n    \"category\": \"{{electronics_category_id}}\",\n    \"stock\": 25,\n    \"images\": [\"macbookpro14-1.jpg\", \"macbookpro14-2.jpg\"],\n    \"specifications\": {\n        \"brand\": \"Apple\",\n        \"model\": \"MacBook Pro 14-inch\",\n        \"processor\": \"Apple M3 Pro\",\n        \"memory\": \"18GB Unified Memory\",\n        \"storage\": \"512GB SSD\",\n        \"display\": \"14.2-inch Liquid Retina XDR\",\n        \"color\": \"Space Black\"\n    }\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Update Product Stock",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/products/{{product_id}}/stock",
+                            "host": ["{{base_url}}"],
+                            "path": ["products", "{{product_id}}", "stock"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"stock\": 25\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "📦 Orders",
+            "item": [
+                {
+                    "name": "Create Single Product Order",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/orders",
+                            "host": ["{{base_url}}"],
+                            "path": ["orders"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"products\": [\n        {\n            \"productId\": \"{{product_id}}\",\n            \"quantity\": 1,\n            \"price\": 999.99\n        }\n    ],\n    \"shippingAddress\": {\n        \"street\": \"123 Main Street\",\n        \"city\": \"New York\",\n        \"state\": \"NY\",\n        \"zipCode\": \"10001\",\n        \"country\": \"USA\"\n    }\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Create Multiple Products Order",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/orders",
+                            "host": ["{{base_url}}"],
+                            "path": ["orders"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"products\": [\n        {\n            \"productId\": \"{{iphone_product_id}}\",\n            \"quantity\": 1,\n            \"price\": 999.99\n        },\n        {\n            \"productId\": \"{{samsung_product_id}}\",\n            \"quantity\": 1,\n            \"price\": 1199.99\n        }\n    ],\n    \"shippingAddress\": {\n        \"street\": \"456 Oak Avenue\",\n        \"city\": \"Los Angeles\",\n        \"state\": \"CA\",\n        \"zipCode\": \"90210\",\n        \"country\": \"USA\"\n    },\n    \"couponCode\": \"SAVE10\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Create Order with Coupon",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/orders",
+                            "host": ["{{base_url}}"],
+                            "path": ["orders"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"products\": [\n        {\n            \"productId\": \"{{macbook_product_id}}\",\n            \"quantity\": 1,\n            \"price\": 1999.99\n        }\n    ],\n    \"shippingAddress\": {\n        \"street\": \"789 Pine Street\",\n        \"city\": \"Chicago\",\n        \"state\": \"IL\",\n        \"zipCode\": \"60601\",\n        \"country\": \"USA\"\n    },\n    \"couponCode\": \"WELCOME20\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Get My Orders",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/orders/my-orders",
+                            "host": ["{{base_url}}"],
+                            "path": ["orders", "my-orders"]
+                        }
+                    }
+                },
+                {
+                    "name": "Get All Orders (Admin)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/orders/all?page=1&limit=10",
+                            "host": ["{{base_url}}"],
+                            "path": ["orders", "all"],
+                            "query": [
+                                {"key": "page", "value": "1"},
+                                {"key": "limit", "value": "10"}
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Orders by Status (Admin)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/orders/all?status=pending&page=1&limit=5",
+                            "host": ["{{base_url}}"],
+                            "path": ["orders", "all"],
+                            "query": [
+                                {"key": "status", "value": "pending"},
+                                {"key": "page", "value": "1"},
+                                {"key": "limit", "value": "5"}
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🎟️ Coupons",
+            "item": [
+                {
+                    "name": "Create Percentage Coupon",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/coupons",
+                            "host": ["{{base_url}}"],
+                            "path": ["coupons"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"code\": \"WELCOME20\",\n    \"discountType\": \"percentage\",\n    \"discountValue\": 20,\n    \"minimumAmount\": 100,\n    \"expiryDate\": \"2024-12-31\",\n    \"usageLimit\": 100,\n    \"isActive\": true,\n    \"description\": \"20% off for new customers\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Create Fixed Amount Coupon",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/coupons",
+                            "host": ["{{base_url}}"],
+                            "path": ["coupons"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"code\": \"FLAT50\",\n    \"discountType\": \"fixed\",\n    \"discountValue\": 50,\n    \"minimumAmount\": 200,\n    \"expiryDate\": \"2024-11-30\",\n    \"usageLimit\": 50,\n    \"isActive\": true,\n    \"description\": \"$50 flat discount on orders above $200\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Create Holiday Coupon",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/coupons",
+                            "host": ["{{base_url}}"],
+                            "path": ["coupons"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"code\": \"HOLIDAY2024\",\n    \"discountType\": \"percentage\",\n    \"discountValue\": 15,\n    \"minimumAmount\": 150,\n    \"expiryDate\": \"2024-12-25\",\n    \"usageLimit\": 200,\n    \"isActive\": true,\n    \"description\": \"Holiday special - 15% off\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Validate SAVE10 Coupon",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/coupons/validate",
+                            "host": ["{{base_url}}"],
+                            "path": ["coupons", "validate"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"code\": \"SAVE10\",\n    \"orderAmount\": 100.00\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Validate WELCOME20 Coupon",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/coupons/validate",
+                            "host": ["{{base_url}}"],
+                            "path": ["coupons", "validate"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"code\": \"WELCOME20\",\n    \"orderAmount\": 500.00\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Validate FLAT50 Coupon",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/coupons/validate",
+                            "host": ["{{base_url}}"],
+                            "path": ["coupons", "validate"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"code\": \"FLAT50\",\n    \"orderAmount\": 250.00\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "📈 Reports",
+            "item": [
+                {
+                    "name": "Generate Sales Report (Current Month)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/reports/sales",
+                            "host": ["{{base_url}}"],
+                            "path": ["reports", "sales"]
+                        }
+                    }
+                },
+                {
+                    "name": "Generate Sales Report (Custom Date Range)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/reports/sales?startDate=2024-01-01&endDate=2024-12-31",
+                            "host": ["{{base_url}}"],
+                            "path": ["reports", "sales"],
+                            "query": [
+                                {"key": "startDate", "value": "2024-01-01"},
+                                {"key": "endDate", "value": "2024-12-31"}
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Generate Sales Report (Last 30 Days)",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{admin_token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/reports/sales?startDate=2024-07-23&endDate=2024-08-22",
+                            "host": ["{{base_url}}"],
+                            "path": ["reports", "sales"],
+                            "query": [
+                                {"key": "startDate", "value": "2024-07-23"},
+                                {"key": "endDate", "value": "2024-08-22"}
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "🧪 Testing Scenarios",
+            "item": [
+                {
+                    "name": "Test Invalid Token",
+                    "request": {
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer invalid-token-here"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/auth/profile",
+                            "host": ["{{base_url}}"],
+                            "path": ["auth", "profile"]
+                        }
+                    }
+                },
+                {
+                    "name": "Test Non-Admin Access",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/products",
+                            "host": ["{{base_url}}"],
+                            "path": ["products"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Test Product\",\n    \"price\": 99.99,\n    \"category\": \"test-category\",\n    \"stock\": 10\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Test Invalid Coupon",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/coupons/validate",
+                            "host": ["{{base_url}}"],
+                            "path": ["coupons", "validate"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"code\": \"INVALID_COUPON\",\n    \"orderAmount\": 100.00\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Test Order with Insufficient Stock",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            },
+                            {
+                                "key": "Authorization",
+                                "value": "Bearer {{token}}"
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{base_url}}/orders",
+                            "host": ["{{base_url}}"],
+                            "path": ["orders"]
+                        },
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"products\": [\n        {\n            \"productId\": \"{{product_id}}\",\n            \"quantity\": 999,\n            \"price\": 999.99\n        }\n    ],\n    \"shippingAddress\": {\n        \"street\": \"123 Test Street\",\n        \"city\": \"Test City\",\n        \"state\": \"TS\",\n        \"zipCode\": \"12345\",\n        \"country\": \"USA\"\n    }\n}"
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:5000/api",
+            "type": "string"
+        },
+        {
+            "key": "token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "admin_token",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "product_id",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "category_id",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "electronics_category_id",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "iphone_product_id",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "samsung_product_id",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "macbook_product_id",
+            "value": "",
+            "type": "string"
+        },
+        {
+            "key": "order_id",
+            "value": "",
+            "type": "string"
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "// Set current date for reports",
+                    "const currentDate = new Date();",
+                    "const thirtyDaysAgo = new Date(currentDate.getTime() - (30 * 24 * 60 * 60 * 1000));",
+                    "",
+                    "pm.globals.set('current_date', currentDate.toISOString().split('T')[0]);",
+                    "pm.globals.set('thirty_days_ago', thirtyDaysAgo.toISOString().split('T')[0]);"
+                ]
+            }
+        }
+    ]
+}
